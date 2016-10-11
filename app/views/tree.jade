@@ -1,0 +1,110 @@
+.moduleBlock
+  .usage
+    h2 initTree
+    p 共用 tree 初始设定值。
+    p 返回值: tree Object。
+    p params = {url, animate, method}
+    p 使用方法: $('#tt').tree(Tree.initTree(params));
+  h2 后台返回格式
+    div  
+      img(src="./img/tree.png")
+  h2 参数
+  table.doc-table
+    tbody
+      tr
+        th
+          strong 名称
+        th
+          strong 型别
+        th
+          strong 描述
+        th 
+          strong 预设值
+      tr
+        td url 
+        td string
+        td 后台对映路径
+        td 空
+      tr
+        td animate 
+        td boolean
+        td 树操作动画
+        td true
+      tr
+        td method 
+        td string
+        td 对后端请求时的 http 方法
+        td get  
+  h2 方法
+  table.doc-table
+    tbody
+      tr
+        th
+          strong 名称
+        th
+          strong 参数
+        th
+          strong 描述
+      tr
+        td initTree 
+        td 
+          code obj:{url,animate,method} 
+        td
+          p.red 使用方法: $('#tt').tree(Tree.initTree(obj));
+      tr
+        td addChild 
+        td 
+          p obj,data
+          p obj = tree 对象
+          p data = [{id = 1,text = 'test'}]
+        td 
+          p 用途: 增加子节点。
+          p.red 使用方法: Tree.addChild(obj,data)。
+      tr
+        td addBro 
+        td 
+          p obj,data
+          p obj = tree 对象
+          p data = [{id = 1,text = 'test'}]
+        td 
+          p 用途: 增加兄弟节点。
+          p.red 使用方法: Tree.addBro(obj,data)。
+      tr
+        td updateNode 
+        td  
+          p obj,name 
+          p obj = tree 对象
+          p name = 修改后的名称      
+        td 
+          p 用途: 修改节点名称
+          p.red 使用方法: Tree.updateNode(obj,name)
+      tr
+        td delNode 
+        td obj
+        td 
+          p 用途: 删除节点
+          p.red 使用方法: Tree.delNode(obj)
+      tr
+        td getFather
+        td 
+          p node,obj
+          p node = 当前节点
+          p obj = tree obj
+        td 
+          p 用途: 取得父节点
+          p 返回: node
+          p.red 使用方法: Tree.getFather(node,obj)
+      tr
+        td getRoot
+        td obj
+        td 
+          p 用途: 取得根节点
+          p 返回: node
+          p.red 使用方法: Tree.getRoot(obj)
+      tr
+        td getSelectNode
+        td obj
+        td 
+          p 用途: 取得当前节点
+          p 返回: node
+          p.red 使用方法: Tree.getSelectNode(obj)

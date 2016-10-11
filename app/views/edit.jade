@@ -1,0 +1,14 @@
+.easyui-dialog#dlg(title="New Topic", style="width:400px", data-options="closed: true, shadow: true")
+		div(style="padding:10px 60px 20px 60px")
+			form(id='ff')
+				table(cellpadding="5")
+					tr
+						td Name:
+						td 
+							input(class="tb", type="text", id="name", name="name")
+					tr
+						td Email:
+						td
+							input(class="tb", type="text", id="email", name="email")
+				div(style="text-align:center;padding:5px")
+					button#editBtn(type='submit') send

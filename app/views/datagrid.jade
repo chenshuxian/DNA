@@ -1,0 +1,112 @@
+.moduleBlock
+  .usage
+    h2 initDG
+    p 共用 datagrid 初始设定值。
+    p 返回值: datagrid Object。
+    p params = {url,data,module,hideCols,height}
+    p 使用方法: $('#dg').datagrid(Dna.initDG(params));
+
+  h2 方法
+  table.doc-table
+    tbody
+      tr
+        th
+          strong 名称
+        th
+          strong 参数
+        th
+          strong 描述
+      tr
+        td initDG
+        td
+          code obj:{url,data,module,hideCols,height}
+          p url = string,后台对映url
+          p data = obj,后台querydata
+          p module = string,模塊名，對映 columns 集群中的資料
+          p hideCols = Arr,稳藏栏位
+          p height = num, dg 高度
+        td
+          p 载入成功
+            ul
+              li 第一行高亮
+              li 滚动条置顶
+              li 备注加注解提示
+              li 若隐藏阵列有值，将其栏位隐藏
+          p 点击栏位事件时
+            记录栏位名称
+          p 点击列资料时
+            ul
+              li 单行高亮
+              li 触发事件在操作栏位上时不进行动作
+          p.red 返回 dg Object
+      tr
+        td getDging
+        td formStatus
+        td
+          p 用途: 取得对映的 dg
+          p formStatus 目前操作的状态。
+          p 返回一个 dg 对象。
+      tr
+        td highLight
+        td index
+        td
+          p 用途: 单行高亮
+          p 传入要高亮栏位的 index 值。
+          p.red 使用方法: Dna.highLight.call(this, 0)
+      tr
+        td hideCols
+        td dg,arr
+        td
+          p 用途: 隐藏栏位
+          p dg: datagrid 对象
+          p arr: 隐藏栏位阵列
+          p.red 使用方法: Dna.hideCols(dg, arr)
+      tr
+        td showCols
+        td dg,arr
+        td
+          p 用途: 显示栏位
+          p dg: datagrid 对象
+          p arr: 显示栏位阵列
+          p.red 使用方法: Dna.showCols(dg, arr)
+      tr
+        td checkCols
+        td dg, col
+        td
+          p 用途: 确认栏位是否存在
+          p dg: datagrid 对象
+          p col: 栏位名称
+          p return: bool, 存在 true, 反之 false
+          p.red 使用方法: Dna.checkCols(dg, col)
+      tr
+        td checkAll
+        td dg
+        td
+          p 用途: 取得所有勾选栏位
+          p dg: datagrid 对象
+          p.red 使用方法: Dna.checkAll(dg)
+          p.red 返回 all rows
+      tr
+        td scorllTop
+        td none
+        td
+          p 用途: 滚动条置顶
+          p.red 使用方法: Dna.scorllTop()
+      tr
+        td dgAdjust
+        td dg
+        td
+          p 用途: datagrid 自适应
+          p.red 使用方法: Dna.dgAdjust()
+      tr
+        td shiftR
+        td none
+        td
+          p 用途: 左边GRID资料右移
+          p.red 使用方法: Dna.shiftR()
+      tr
+        td shiftL
+        td none
+        td
+          p 用途: 右边GRID资料左移
+          p.red 使用方法: Dna.shiftL()

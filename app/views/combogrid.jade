@@ -1,0 +1,76 @@
+.moduleBlock
+  .usage
+    h2 comboGrid
+    p 共用 comboGrid 初始设定值。
+    p 返回值: comboGrid Object。
+    p 使用方法: $('#tt').tree(Dna.initComboDG(params));
+  h2 参数
+  table.doc-table
+    tbody
+      tr
+        th
+          strong 名称
+        th
+          strong 型别
+        th
+          strong 描述
+        th 
+          strong 预设值
+      tr
+        td url 
+        td string
+        td 后台对映路径
+        td 空
+      tr
+        td panelWidth 
+        td number
+        td 呈现宽度
+        td 450
+      tr
+        td method 
+        td string
+        td 对后端请求时的 http 方法
+        td post  
+      tr
+        td idField 
+        td string
+        td 下拉框的 value 对映栏
+        td   
+      tr
+        td textField 
+        td string
+        td 下拉框显示文字对映栏
+        td   
+      tr
+        td required 
+        td bool
+        td 是否为必填栏位
+        td false  
+      tr
+        td validType 
+        td array
+        td 验证类别，阵列对映 validatebox 中提供的验证名称
+        td ['combogrid']  
+      tr
+        td module 
+        td string
+        td 对映 columns 中的方法名, 用来取得 columns
+        td   
+  h2 方法
+  table.doc-table
+    tbody
+      tr
+        th
+          strong 名称
+        th
+          strong 参数
+        th
+          strong 描述
+      tr
+        td initComboDG 
+        td 
+          code 参考参数例表 
+        td
+          p.red 使用方法: $("#cg").combogrid(initCG);
+          img(src="./img/combogrid.png")
+      

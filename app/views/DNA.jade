@@ -1,0 +1,206 @@
+.moduleBlock
+  .usage
+    p 此模块为系统核心设置，系统初始等相关共用的代码都撰写于此。
+    p 最终参出一支 Dna.js
+
+  h2 参数
+  table.doc-table
+    tbody
+      tr
+        th
+          strong 名称
+        th
+          strong 型别
+        th
+          strong 描述
+        th
+          strong 预设值
+      tr
+        td formStatus
+        td string
+        td 所有操作状态记录，预设有 add/edit/del/status/view
+        td 空
+      tr
+        td beforeCheck
+        td boolean
+        td 决定是否启动 beforeSubmit()
+        td true
+      tr
+        td preId
+        td string
+        td 每个相面的前辍 id
+        td core
+      tr
+        td dg
+        td obj
+        td
+          p 所有 dg 的集合，预设有以下几个
+          p 依不用状态取得对映的 dg
+          p 名称需和状态对映
+          img(src='./img/dg.png')
+        td 第一个 dg
+      tr
+        td url
+        td obj
+        td
+          p 所有 url 的集合，预设有以下几个
+          p 名称需和状态对映
+          img(src='./img/url.png')
+        td undefine
+      tr
+        td callback
+        td obj
+        td
+          P 弹出框完成后，所呼叫的函数
+          p 名称需和状态对映
+          img(src='./img/callback.png')
+        td 空
+      tr
+        td popData
+        td obj
+        td 呼叫弹出框时，传递到服务器的参数
+        td
+          p 新增时的 opType: add
+          p 编辑时的 opType: edit
+          p 浏览时的 opType: view
+      tr
+        td popWidth
+        td int
+        td 弹出框的宽度
+        td 400
+      tr
+        td status
+        td int
+        td 页面中状态查询的记录栏位
+        td 空
+      tr
+        td sort
+        td int
+        td 页面中排序查询的记录栏位
+        td 空
+      tr
+        td dels
+        td Set (ES6 新型态不重覆阵列)
+        td 记录 Grid 中多笔删除的阵列
+        td 空
+      tr
+        td adds
+        td Set (ES6 新型态不重覆阵列)
+        td 记录 Grid 中多笔添加的阵列
+        td 空
+      tr
+        td localStore
+        td Array
+        td 本地查询时，存储资料的阵列
+        td 空
+      tr
+        td formData
+        td Array
+        td 存储表单资料的阵列
+        td 空
+      tr
+        td searchTip
+        td string
+        td 查询栏位中提示字串
+        td "编码\中文名称\英文简称\英文名称\助记符"
+      tr
+        td fieldName
+        td string
+        td dataGrid onClickCell 事件时记录栏位名称用，以便控制 onClickRow 事件
+        td 空
+      tr
+        td index
+        td int
+        td 记录 Grid 中返回的索引值
+        td 0
+      tr
+        td parentStatus
+        td int
+        td 记录 Grid 中，父类的状态
+        td 0
+      tr
+        td delIndexs
+        td Set
+        td 记录批量删除的 index
+        td 空
+      tr
+        td authArr
+        td obj
+        td 记录权限设定的参数
+        td 空
+
+  h2 方法
+  table.doc-table
+    tbody
+      tr
+        th
+          strong 名称
+        th
+          strong 参数
+        th
+          strong 描述
+      tr
+        td init
+        td
+        td
+          p 进行页面初始化
+            ul
+              li 设置查询框提示字串
+              li dataGrid 自适应
+              li 状态查询绑定
+              li 排序查询绑定
+              li 查询绑定
+              li 新增绑定
+              li 批量删除绑定
+      tr
+        td confirmOK
+        td ajaxParams {url,type,data,success}
+        td
+          p 确认页面，按下确认后所呼叫的函数
+          p 参数为确认后，呼叫服务器，所需传递数
+          p 此参数传给 DataControl.sendData()
+      tr
+        td confirmNO
+        td
+        td
+        p 确认页面，按下取消后所呼叫的函数
+        p 将送出钮重新启用
+        p 若为改变状态，则会重新刷新该栏位
+      tr
+        td validate
+        td
+        td
+          p 将所有表单验证写在此处
+          P 相关写法可以参考
+            a(href='#validate') Validate
+      tr
+        td commonPop
+        td
+          p status, index = 0, formData = {} ,params ={}
+          p 表单状态， 索引，栏位资料,修改参数
+        td
+          p 共用弹出框呼叫函式
+          core obj.commonPop('add');
+      tr
+        td searchParams
+        td preId
+        td
+          p 预设查询参数
+          img(src='./img/searchParams.png')
+      tr
+        td search
+        td
+          p params = {dataGrid, searchObj}
+          p dataGrid: this.dataGrid
+          p searchObj: searchParams()
+        td
+          p 查询
+      tr
+        td setSearchStr
+        td
+          p params = {preId, str, obj}
+          p preId: this.preId
+          p str: this.searchTip
+          p obj: $("#SearchStr")
+        td
+          p 查询提示字串绑定

@@ -1,0 +1,87 @@
+.moduleBlock
+  .usage
+    h2 resolve
+    p 解析后台回传资料显示方式。
+    button.btn.btn-success#alert(type='button') success
+    p 返回值: 布林值。
+    pre
+      code params = {status: 'success',msg: '新增成功'}
+    p 使用方法: Dna.resolve(params);
+
+    h2 showMsg
+    p 简易的讯息显示。
+    button.btn.btn-danger#error(type='button') error
+    p 无返回值。
+    p 使用方法: Dna.showMsg('hello World');
+
+    h2 jConfirm
+    p 问题确认讯息框。
+    button.btn.btn-info#confirm(type='button') confirm
+    p 无返回值。
+    p 使用方法: Dna.jConfirm({msg:'keep going'});
+
+  h2 参数
+  table.doc-table
+    tbody
+      tr
+        th
+          strong 名称
+        th
+          strong 型别
+        th
+          strong 描述
+        th
+          strong 预设值
+      tr
+        td msg
+        td string
+        td 显示资讯
+        td 空
+      tr
+        td title
+        td string
+        td 标题
+        td 提示
+      tr
+        td callback
+        td fn
+        td 回调函式
+        td 空
+  h2 方法
+  table.doc-table
+    tbody
+      tr
+        th
+          strong 名称
+        th
+          strong 参数
+        th
+          strong 描述
+      tr
+        td resolve
+        td obj
+        td
+            code obj:{status,msg,title,callback}
+            br
+            code status:分三类由后台返回 success,error,confirm
+            br
+            code 参数 title 和 callback 可以为空
+      tr
+        td showMsg
+        td obj
+        td
+          code obj:{msg,title,callback}
+          br
+          code 参数 title 和 callback 可以为空
+      tr
+        td jConfirm
+        td obj
+        td
+          code obj:{msg,title,sendData = {}}
+          br
+          code 参数 title 可以为空
+          br
+          code callback 预设呼叫方法为 confirmOK,confirmNO 写在各自的模块中
+          br
+          code 若是ok,所有执行的动作，就写在 confirmOK 中，反之则 confirmNO
+          code sendData 于删除和编辑时使用，传递到 server 的参数，预设为空

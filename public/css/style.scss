@@ -1,0 +1,52 @@
+@import 'reset';
+$red: red;
+p,ul,ol,dl,dd,dt,blockquote,td,th {
+  line-height: 1.65em;
+}
+
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.top5 {
+  margin-top: 5px;
+}
+
+.doc-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  margin-bottom: 1.65em;
+}
+
+.doc-table th {
+  background: #eee;
+}
+
+.doc-table th, .doc-table td {
+  border: 1px solid #8CACBB;
+  padding: 0.3em 0.7em;
+}
+
+.red,.error-message {
+  color: $red;
+}
+
+.anchor {
+  margin-top: 75px;
+}
+
+.clearBtn {
+  margin-top: 3px;
+}
+
+.coreRule li {
+  font-size: 20px;
+  margin-top: 5px;
+  list-style: initial;
+}

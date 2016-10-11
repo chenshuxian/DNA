@@ -1,0 +1,149 @@
+.moduleBlock
+  .usage
+    h2 vb
+    p 綁定驗證。
+    img(src='./img/validate.png')
+
+  h2 参数
+  table.doc-table
+    tbody
+      tr
+        th
+          strong 名称
+        th
+          strong 型别
+        th
+          strong 描述
+        th
+          strong 预设值
+      tr
+        td obj
+        td obj
+        td 綁定對象$('#name')
+        td 空
+      tr
+        td setting
+        td obj
+        td 設定
+          p required: boolean
+          p validType: ['验证方法','验证方法2']
+          p 其他的设定请参考 easyui validatebox
+        td 提示
+      tr
+        td len
+        td number
+        td 输入长度控制
+        td 30
+  h2 方法
+  table.doc-table
+    tbody
+      tr
+        th
+          strong 名称
+        th
+          strong 参数
+        th
+          strong 描述
+      tr
+        td vb
+        td obj
+        td
+          code obj:[{obj,setting,len},{obj,setting,len}]
+          p 通常于 form 表单建立时绑定。
+          p 传入的参数为一个物件阵列如上述。
+
+  h2 验证方法 validType
+  table.doc-table
+    tbody
+      tr
+        th
+          strong 名称
+        th
+          strong 参数
+        th
+          strong 描述
+      tr
+        td symbol
+        td
+        td
+          p <>|$ 符号验证
+      tr
+        td authUser
+        td
+        td
+          p 长6-20字符，可由数字、字母和下划线组成，字母不区分大小写!
+      tr
+        td customer
+        td
+        td
+          p 不能包含admin
+      tr
+        td account
+        td
+        td
+          p 长4-20字符，可由数字、字母和下划线组成，字母不区分大小写!
+      tr
+        td digits
+        td
+        td
+          p 数字验证
+      tr
+        td telephone
+        td
+        td
+          p 电话验证
+      tr
+        td blank
+        td
+        td
+          p 空白验证
+      tr
+        td ipFormat
+        td
+        td
+          p ip验证
+      tr
+        td password
+        td
+        td
+          p 密码验证，6-20个字符，字母、数字的组合!
+      tr
+        td equalTo
+        td
+        td
+          p 新旧密码验证
+      tr
+        td numAndLetters
+        td
+        td
+          p 只能数字与字母组合
+      tr
+        td selectValueRequired
+        td
+        td
+          p 下拉选单不可为空验证
+      tr
+        td english
+        td
+        td
+          p 只能有字母
+      tr
+        td upperCase
+        td
+        td
+          p 只能为大写字母
+      tr
+        td upperNum
+        td
+        td
+          p 只能为大写字母和数字
+      tr
+        td comboxtree
+        td
+        td
+          p 下拉树不可为空
+      tr
+        td combogrid
+        td
+        td
+          p 比对输入值是否在下拉grid中

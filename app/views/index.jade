@@ -1,0 +1,75 @@
+extends layout
+var hide ='hide'
+block css
+    link(rel='stylesheet', href='/css/style.css')
+    //link(rel='stylesheet', href='/css/jquery/jquery.alerts.css')
+    link(rel='stylesheet', href='/css/jquery/icon.css')
+    link(rel='stylesheet', href='/css/jquery/easyui.css')
+    link(rel='stylesheet', href='/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/css/font-awesome-4.6.3/css/font-awesome.min.css')
+block js
+    script(src='js/dev/Dna.js')
+block content
+
+  h1= title
+
+  h1.anchor Init 初始
+  div
+    p.red 將 Dna.js 引用進來
+      a(href="http://localhost:3000/js") 下載
+    img(src="./img/commons.png")
+
+  #DNA
+  h1.anchor DNA Core
+  include DNA
+
+  #msg
+  h1.anchor Message 模块
+  include msg
+  #datagrid
+  h1.anchor DataGrid 模块
+  div#toolbar.top5
+    span hide
+        input(type='radio', name='sh', id='hide')
+    span show
+        input(type='radio', name='sh', id='show')
+  .top5
+    table#dg
+  .top5
+  include twoGrid
+  include datagrid
+  #tree
+  h1.anchor Tree 模块
+  #tt
+  include tree
+  // div#popContainer
+  .top5
+  #datacontrol
+  h1.anchor DataControl 模块
+    div
+        a(class="btn btn-success" id="insert")
+          i(class="fa fa-trash-o fa-lg") 新增初始
+        a(class="btn btn-success" id="update")
+          i(class="fa fa-trash-o fa-lg") 修改初始
+        a(class="btn btn-danger" id="del")
+          i(class="fa fa-trash-o fa-lg") Delete
+        a(class="btn btn-danger" id="delBatch")
+          i(class="fa fa-trash-o fa-lg") 匹次刪除
+  include form
+  include edit
+  .top5
+  #validate
+  h1.anchor Validate 模块
+  include validate
+  .top5
+  #combogrid
+  h1.anchor ComboGrid 模块
+  input#cg
+  include combogrid
+  .top5
+  #rules
+  h1.anchor 前端开发规范
+  include rules
+
+
+  script(src='/js/dev/index.js')

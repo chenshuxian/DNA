@@ -1,0 +1,153 @@
+.moduleBlock
+  h2 方法
+  table.doc-table
+    tbody
+      tr
+        th
+          strong 名称
+        th
+          strong 参数
+        th
+          strong 描述
+      tr
+        td addBatch
+        td params = {url, data}
+        td
+          p 用途: 批次加载。
+          p 预设 data 为 ids，若要加入其他 data 资料，。
+          p 可以在传入的参教中做设定如下 :。
+          img(src='./img/addBatch.png')
+      tr
+        td getIds
+        td ids, str
+        td
+          p 用途: 取得勾选栏位 id 阵列。
+          p ids = 是个 id 物件，str = ids 中属性名。
+          p 返回一个阵列。
+      tr
+        td formSet
+        td
+        td
+          p 用途: 表单设定。
+          p 表单送出前进行表单验证。
+          p 验证后，呼叫 beforeSubmit()。
+          p 呼叫 route() 依formStatus决定。
+          p.red 使用方法: Dna.formSet(obj,data)。
+      tr
+        td beforeSubmit
+        td
+        td
+          p 用途: 资料送到服务器前呼叫的函数，可以进行参数修正。
+          p return: true
+          p 取得 form 表单的值，并设置给 formData 和 formJson。
+          p.red 使用方法: Dna.beforeSubmit()。
+      tr
+        td btnDisable
+        td
+        td
+          p 用途: 表单送出钮 disable。
+          p 防止表单重覆送出。
+          p.red 使用方法: Dna.btnDisable()。
+      tr
+        td btnEnable
+        td
+        td
+          p 用途: 表单送出钮 enable。
+          p.red 使用方法: Dna.btnEnable()。
+      tr
+        td viewHide
+        td
+        td
+          p 用途: 表单浏览时，栏位readonly及btn hide。
+          p.red 使用方法: Dna.viewHide()。
+      tr
+        td changeStatus
+        td index,rowData,formStatus = 'status'
+        td
+          p 用途: 改变状态
+          p formStatus 配合 url 取得相对映的 url。
+          p.red 使用方法: Obj.changeStatus(index,rowData,formStatus)。
+      tr
+        td del
+        td index = 0,rowData,formStatus = 'del'
+        td
+          p 用途: 删除
+          p formStatus 配合 url 取得相对映的 url。
+          p.red 使用方法: Obj.del(index,rowData,formStatus)。
+      tr
+        td delBatch
+        td formStatus = 'delBatch', tipName = 'name'
+        td
+          p 用途: 批量删除
+          p formStatus 配合 url 取得相对映的 url。
+          p tipName 提示栏位名称。
+          p.red 使用方法: Obj.delBatch(formStatus, tipName)。
+      tr
+        td dedupe
+        td array
+        td
+          p 用途: 去除阵列中重覆值。
+          p.red 使用方法: Dna.dedupe(array)。
+      tr
+        td getFormData
+        td
+        td
+          p 用途: 取得去除前后空白的 formData。
+          p 并设置给 formData
+          p.red 使用方法: Dna.getFormData()。
+      tr
+        td getFormJson
+        td
+        td
+          p 用途: 将 formData 转成 Json。
+          p 并设置给 formJson
+          p.red 使用方法: Dna.getFormJson()。
+      tr
+        td strReplace
+        td string
+        td
+          p 用途: html 特殊字符取代。
+          core <,>,&,",空白。
+          p.red 使用方法: Dna.strReplace(string)。
+      tr
+        td setToolTip
+        td
+          p obj,val
+          p obj = 绑定的对象
+          p val = 显示的内容
+        td
+          p 用途: 内容提示。
+          p.red 使用方法: Dna.setToolTip(obj,val)。
+      tr
+        td sendData
+        td
+          p ajaxData = {url,type,data,success}
+          p url = 后台路径
+          p type = POST
+          p data = 传至后台资料
+          p success = 成功后的 callback fn
+        td
+          p 用途: 资料 ajax 送出。
+          p.red 使用方法: Dna.sendData(ajaxData)。
+      tr
+        td uploadButton
+        td
+          p obj = input tag id
+          p mult = false, 是否为多档上传
+        td
+          p 用途: 档案上传。
+          p.red 使用方法: Dna.uploadButton(obj)。
+      tr
+        td includes
+        td [arr/string],value
+        td
+          p 用途: 判断value是否存在阵列或字串中。
+          p 返回: boolen。
+          p.red 使用方法: Dna.includes()。
+      tr
+        td toJson
+        td string
+        td
+          p 用途: 将 string 转为 JSON。
+          p 返回: JSON Obj。
+          p.red 使用方法: Dna.toJson()。
