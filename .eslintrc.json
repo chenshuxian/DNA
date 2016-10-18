@@ -5,12 +5,14 @@
     },
     "globals": {
       "Dna": true,
-      "window": true
+      "window": true,
+      "document": true
     },
     "rules": {
       "one-var":[1,"always"],
       "no-path-concat": "off",
       "indent": ["error", 2, { "VariableDeclarator": { "var": 2, "let": 2, "const": 3 } }],
-      "no-eval": 1
+      "no-eval": 1,
+	  "linebreak-style": [0, "windows"]
     }
 }

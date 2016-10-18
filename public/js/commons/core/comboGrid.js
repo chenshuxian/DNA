@@ -78,3 +78,4 @@ export let ComboGrid = {
     return init;
   }
 };
+window.CG = ComboGrid;

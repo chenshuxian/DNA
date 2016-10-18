@@ -6,6 +6,7 @@
 */
 import $ from 'jquery';
 import {Columns} from './columns.js';
+import {Auth} from './AUth.js';
 import {CONST as CO} from './const.js';
 
 let _limit = CO.LIMIT.SHIFTGRID,
@@ -50,23 +51,31 @@ export let DataGrid = {
     {
       url: 後台請求數據 url
       data: 請求時傳送的 querydata
-      module: 模塊名，對映 columns 集群中的資料
+      // module: 模塊名，對映 columns 集群中的資料
       hideCols: 隱藏欄位陣列
       // dg: 建立 datagrid table 對象
       height: dg 高度
     }
   */
-  initDG(params) {
-    let {url, data, module, hideCols, height, method = 'post'} = params,
+  initDG(params = {}) {
+    let authId = params.preId ? params.preId : this.preId;
+    Auth.getAuthStr(authId);
+    let {
+      url = this.url.pageList,
+      data = this.searchParams(),
+      preId = this.preId,
+      hideCols = [],
+      height = $('#site-content').height() - 95,
+      method = 'post'} = params,
         init = {
           url,
           queryParams: data,
-          columns: Columns[module](),
+          columns: Columns[preId](),
           height,
           fitColumns: true,
           method,
-          // checkOnSelect: false,
-          // selectOnCheck: false,
+          checkOnSelect: false,
+          selectOnCheck: false,
           // autoRowHeight: false,
           striped: true,
           pagination: true,
@@ -84,15 +93,34 @@ export let DataGrid = {
               Dna.hideCols(this, hideCols);
             }
           },
+          onClickCell: function(index, field, value) {
+            Dna.fieldName = field;
+          },
           onClickRow: function(index, row) {
             Dna.highLight.call(this, index);
+            if (Dna.fieldName !== 'opt') {
+              console.log('非操作栏位执行click');
+            }
           }
         };
     return init;
   },
 
   highLight(index) {
-    $(this).datagrid('highlightRow', Number(index));
+    // $(this).datagrid('highlightRow', Number(index));
+    let opt = $(this).datagrid("options"),
+        rows1 = opt.finder.getTr(this, "", "allbody", 2);
+
+    if (rows1.length > 0) {
+      $(rows1).each(function() {
+        let tempIndex = Number($(this).attr("datagrid-row-index"));
+        if (tempIndex === index) {
+          $(this).addClass("datagrid-row-click");
+        } else {
+          $(this).removeClass("datagrid-row-click");
+        }
+      });
+    }
   },
 
   //  params:
@@ -100,17 +128,36 @@ export let DataGrid = {
   //  array = hidden field of Columns
   hideCols(dg, arr) {
     for (let v of arr) {
-      dg.datagrid('hideColumn', v);
+      let haveCols = Dna.checkCols(dg, v);
+      if (haveCols) {
+        $(dg).datagrid('hideColumn', v);
+      }
     }
   },
 
   //  params:
   //  obj = datagrid Object,
-  //  array = hidden field of Columns
+  //  array = show field of Columns
   showCols(dg, arr) {
     for (let v of arr) {
-      dg.datagrid('showColumn', v);
+      let haveCols = Dna.checkCols(dg, v);
+      if (haveCols) {
+        $(dg).datagrid('showColumn', v);
+      }
     }
+  },
+
+  /*
+    栏位确认
+    return: bool
+  */
+  checkCols(dg, col) {
+    let check = $(dg).datagrid('getColumnOption', col),
+        flag = true;
+    if (check === null) {
+      flag = false;
+    }
+    return flag;
   },
 
   // 向右移
@@ -171,8 +218,13 @@ export let DataGrid = {
   /*
     返回所有勾選欄位資料
   */
-  checkAll(obj) {
-    return $(obj).datagrid('getChecked');
+  checkAll(obj, msg) {
+    let ids = $(obj).datagrid('getChecked');
+    if (ids.length === 0) {
+      this.showMsg(msg);
+      return false;
+    }
+    return ids;
   },
 
   /*
@@ -193,14 +245,18 @@ export let DataGrid = {
   /*
     dataGrid 頁面調整
   */
-  dgAdjust(obj) {
+  dgAdjust(table = this.dataGrid) {
     // 隨畫面調整大小
-    let width = obj.parents('.panel').width(),
-        height = obj.parents('.panel').height();
-    obj.datagrid('resize', {
+    let width = table.parents('.tabs-panels').width() - 40,
+        height = table.parents('.tabs-panels').height() - 70;
+    table.datagrid('resize', {
       width,
       height
     });
+  },
+  // 取得正在 work 的 dg
+  getDging(formStatus) {
+    return this.dg[formStatus] ? this.dg[formStatus] : this.dataGrid;
   }
 
 };

@@ -2,7 +2,7 @@ import $ from 'jquery';
 
 let _err = (target, msg) => {
   let t = $(target);
-  if (t.hasClass('textbox-text')) {
+  if (t.hasClass('form-control')) {
     t = t.parent();
   }
   let m = t.next('.error-message');
@@ -85,10 +85,13 @@ export let Validate = {
   }
   */
   vb(params) {
-    let {obj, setting, len = 30} = params;
-    setting.err = _err;
-    $(obj).validatebox(setting);
-    $(obj).attr('maxlength', len);
+    let arr = Array.from(params);
+    for (let [k, v] of arr.entries()) {
+      let {obj, setting, len = 30} = v;
+      setting.err = _err;
+      $(obj).validatebox(setting);
+      $(obj).attr('maxlength', len);
+    }
   },
 
   err: _err

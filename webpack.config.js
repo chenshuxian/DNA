@@ -34,6 +34,7 @@ module.exports = {
   ],
   entry: {
     index: `./public/js/test.js`,
+    combGrid5: './public/js/commons/core/ComboGrid.js',
     vender: ['jquery', 'easyui', 'easyuiCN']
   },
   output: {

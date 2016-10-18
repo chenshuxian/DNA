@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <link rel="icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="/css/css.css"></link>
+    <link rel="stylesheet" href="/css/icon.css"></link>
+    <link rel="stylesheet" href="/css/font-awesome-4.6.3/css/font-awesome.min.css"></link>
+    <link rel="stylesheet" href="/css/jquery/easyui.css"></link>
+    <title>云康物流管理平台</title>
+</head>
+<body>
+<!--主菜单-->
+<div id="site-menu">
+  <div class="title"><i class="icon icon-home"></i>全部菜单 <i class="fa fa-angle-down"></i></div>
+  <div class="submenu">
+    <ul class="list-unstyled">
+      <li class="submenu-item"><i class="icon-tools" data-class="tools-hover"></i><span>系统管理</span> <i
+              class="fa fa-angle-right"></i>
+        <div class="sub-list">
+          <ul class="list-unstyled">
+            <dl>
+              <dt><strong>用户设置<i class="fa fa-angle-right"></i></strong></dt>
+              <dd>
+                    <a href="javascript:void(0)"
+                            onclick="Dna.addTab('用户管理','/page/accountManagement');">用户管理</a>
+                    <a href="javascript:void(0)"
+                             onclick="Dna.addTab('角色管理','/page/roleManagement');">角色管理</a>
+              </dd>
+            </dl>
+            <dl>
+              <dt><strong>线路管理<i class="fa fa-angle-right"></i></strong></dt>
+              <dd>
+                      <a href="javascript:void(0)"
+                         onclick="Dna.addTab('线路设置','/page/line/lineSet');">线路设置</a>
+                      <a href="javascript:void(0)"
+                         onclick="Dna.addTab('线路机构分配','/page/line/lineOrgAssign');">线路机构分配</a>
+                      <a href="javascript:void(0)"
+                         onclick="Dna.addTab('线路人员分配','/page/line/linePeopleAssign');">线路人员分配</a>
+              </dd>
+            </dl>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<!--end 主菜单-->
+<!--主体内容-->
+<div class="flex-container layout-vertical" id="full-page">
+  <!--网站头部-->
+  <header id="site-header">
+    <div class="flex-container flex-space-between flex-y-center">
+      <div class="logo-group flex-container flex-center">
+        <a href="http://www.yunkanghealth.com/" target="_blank">
+          <img src="images/base/logo.png" alt="">
+        </a><h5 style="color:#fff;">物流管理平台</h5>
+      </div>
+      <div class="member-action flex-container flex-y-center selected-items">
+        <div class="drop-down">
+          <div class="drop-down-selected">
+            <i class="fa fa-user"></i> <span class="selected-value">欢迎您,jacky</span><i class="fa fa-angle-down"></i>
+          </div>
+          <div class="drop-down-menu">
+            <ul class="list-unstyled">
+                <li><a href="javascript:void(0)"  onclick="addTab('个人信息','/logistics/auth/user/doUserInfo')"><i class="fa fa-user"></i> 个人信息</a></li>
+                <li><a href="javascript:void(0)"  onclick="addTab('修改密码','/logistics/auth/user/doInitUpdate')"><i class="fa fa-lock"></i> 修改密码</a></li>
+                <li><a href="/logistics/home/logout"><i class="fa fa-sign-out"></i>退出</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!--end 网站头部-->
+  <!--主视图-->
+  <div id="main">
+    <section id="site-content" class="easyui-tabs flex-container layout-vertical">
+      <div title="首页">
+
+        <div class="flex-container main-content-container1">
+          <div class="welcome-message block-show">
+            <div class="flex-container  block-show">
+              <div class="msg-container flex-container flex-y-center flex-col-6">
+                <i class="icon-card"></i>
+
+                <div class="msg-body">
+                  <h5 class="selected-items">欢迎，jacky</h5>
+                    <input type="hidden" id="userName" value="${userName}" />
+                    <input type="hidden" id="authStr" value="${funcCode}">
+                  <p>test</p>
+                </div>
+              </div>
+              <div class="msg-container flex-container layout-vertical-center">
+                <i class="icon-clock"></i>
+                <div class="msg-body">
+                  <h5>您本次登陆时间：</h5>
+                  <p>test</p>
+                </div>
+              </div>
+            </div>
+            <div class="divider sm-size"></div>
+            <div class="content-bottom">
+              <div class="flex-container block-show msg-container">
+                <i class="icon-notice"></i>
+                <div class="msg-body">
+                  <h5>公告信息：</h5>
+                  <p>版本：<span id="version">1.1</span> </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- 基础字典信息编辑/展示框 -->
+    <div class="pop" id="popModal" style="z-index: 8999;" ></div>
+    <!-- 信息编辑 end -->
+  </div>
+</div>
+
+</body>
+</html>
+<script src="/js/dev/jQuery.js"></script>
+<script src="/js/dev/Dna.js"></script>

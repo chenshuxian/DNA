@@ -4,75 +4,151 @@ import {DataGrid} from './dataGrid.js';
 import {Validate} from './validate.js';
 import {Tree} from './tree.js';
 import {ComboGrid} from './comboGrid.js';
+import {CONST} from './const.js';
 import {} from './enterToTab.js';
+import {} from './onEvent.js';
 import $ from 'jquery';
 let _tip = '这是父节点中的方法，请在子节点中新增',
-    _delBatch = '请选择要删除的数据',
-    _delStatus = 'del',
-    _setBefore = 'please join ',
+    _addStatus = CONST.STATUS.ADD,
+    _editStatus = CONST.STATUS.EDIT,
+    _viewStatus = CONST.STATUS.VIEW,
+  //  _delBatchStatus = CONST.STATUS.DELBATCH,
+    _setBefore = '请于子页面中加入',
+    _statusCheck = '状态启用中禁止编辑',
     _searchStr = '查询字串中不可以有 $ 字号';
 
-// 添加 textbox clesnBtn
-$.extend($.fn.textbox.methods, {
-  addClearBtn: function(jq, iconCls) {
-    return jq.each(function() {
-      var t = $(this);
-      var opts = t.textbox('options');
-      opts.icons = opts.icons || [];
-      opts.icons.unshift({
-        iconCls: iconCls,
-        handler: function(e) {
-          var cg = e.data.target;
-          $(cg).textbox('clear').textbox('textbox').focus();
-          var dg = $(cg).combogrid('grid');
-          dg.datagrid('loadData', cg.localStore);
-          $(this).css('visibility', 'hidden');
-        }
-      });
-      t.textbox();
-      if (!t.textbox('getText')) {
-        t.textbox('getIcon', 0).css('visibility', 'hidden');
-      }
-      t.textbox('textbox').bind('keyup', function() {
-        var icon = t.textbox('getIcon', 0);
-        if ($(this).val()) {
-          icon.css('visibility', 'visible');
-        } else {
-          icon.css('visibility', 'hidden');
-        }
-      });
-    });
-  }
+$('#site-content').tabs({
+  fit: true
 });
 
 let Dna = {
   formStatus: null,
-  beforeCheck: false,
-  delUrl: `${_setBefore}delUrl`,
-  delBatchUrl: `${_setBefore}delBatchUrl`,
+  beforeCheck: true,
+  preId: 'core',
+  url: {
+    add: `${_setBefore}addUrl`,
+    edit: `${_setBefore}editUrl`,
+    pop: `${_setBefore}popUrl`,
+    check: `${_setBefore}checkUrl`,
+    status: `${_setBefore}statusUrl`,
+    del: `${_setBefore}delUrl`,
+    delBatch: `${_setBefore}delBatchUrl`,
+    pageList: `${_setBefore}pageListUrl`
+  },
+  dg: {
+    add: undefined,
+    edit: undefined,
+    status: undefined,
+    delBatch: undefined
+  },
+  callback: {
+    add() {
+      console.log('addCallBack');
+    },
+    edit(formData) {
+      console.log('editCallBack');
+      console.log(formData);
+    },
+    view(formData) {
+      console.log('viewCallBack');
+    },
+    status(data) {
+      console.log('statusCallBack');
+    }
+  },
+  popData: {
+    add: {opType: _addStatus},
+    edit: {opType: _editStatus},
+    view: {opType: _viewStatus}
+  },
+  popWidth: 400,
+  status: '',
+  sort: '',
   dels: new Set(),
   adds: new Set(),
-  dataCG: [],
   localStore: [],
-  beforeSubmit() {
-    /*
-      送出前的各種設定，如
-      url 更動，
-      是前同名確認，
-      多個子頁不同服務設定。
-    */
-    console.log(`${_tip} beforeSubmit()`);
-    return true;
+  formData: [],
+  form: CONST.BASES.FORM,
+  searchTip: CONST.SEARCHTIP.COMMON,
+  fieldName: null,
+  index: 0,       // row 栏位值
+  parentStatus: 0,    // 父层表单状态记录
+  delIndexs: new Set(),
+  // 设置页面初始状态
+  init() {
+    let preId = this.preId,
+        that = this;
+    // 设置查询栏中的提示字串
+    this.setSearchStr();
+    // datagrid 自适应
+    $(window).on('resize', () => {
+      this.dgAdjust();
+    });
+    /* 状态搜索 */
+    $(`.${preId}-status-selector li`).on('click', function() {
+      $(`#${preId}StatusSpan`).html($(this).html());
+      $(`.${preId}-status-selector li.selected`).removeClass('selected');
+      var flg = $(this).is('.selected');
+      $(this).addClass(function() {
+        return flg ? '' : 'selected';
+      });
+
+      that.status = $(this).attr("el-value");
+      that.search();
+    });
+
+    /* 排序 */
+    $(`.${preId}-sort-selector li`).on('click', function() {
+      $(`#${preId}SortSpan`).html($(this).html());
+      $(`.${preId}-sort-selector li.selected`).removeClass('selected');
+      var flg = $(this).is('.selected');
+      $(this).addClass(function() {
+        return flg ? '' : 'selected';
+      });
+
+      that.sort = $(this).attr('el-value');
+      that.search();
+    });
+
+    /* search Btn */
+    $(`#${preId}SearchBtn`).on('click', () => {
+      this.search();
+    });
+
+    $(`#${preId}Add`).on('click', () => {
+      this.commonPop('add');
+    });
+
+    // deleteBatch
+    $(`#${preId}DeleteBatch`).on('click', () => {
+      this.delBatch();
+    });
   },
   // 后台回传confim 后所要执行的方法
-  confirmOK() {
+  confirmOK(ajaxParams) {
     console.log(`${_tip} confirmOK()`);
-    return false;
+    let sendCheck = {
+      status: true,
+      del: true
+    };
+    // 改变状态或删除
+    if (sendCheck[this.formStatus]) {
+      this.sendData(ajaxParams);
+    }
+
+    // return false;
   },
   // 后台回传confim 后所要执行的方法
   confirmNO() {
     console.log(`${_tip} confirmNO()`);
-    return false;
+    let
+        status = this.formStatus,
+        dg = this.getDging(status);
+    this.btnEnable();
+    if (status === 'status') {
+      dg.datagrid('refreshRow', this.index);
+    }
+    // return false;
   },
   validate() {
     // 驗證設定，如果一個頁面中，
@@ -81,124 +157,77 @@ let Dna = {
     console.log(`${_tip} validate()`);
     return false;
   },
-  addPop() {
-    console.log('addPop setting');
-  },
-  addCallBack() {
-    console.log(`${_tip} addCallBack()`);
-    return false;
-  },
-  add() {
-    console.log(`${_tip} add()`);
-    return false;
-  },
-  editPop(formData) {
-    console.log('editPop setting');
-    /*
-      1.check status of rows
-      2.this.pop(params,this.editCallback);
-      2.set formStatus = edit
-      3.call editCallback
-    */
-  },
-  editCallBack() {
-    console.log('${_tip} editCallBack()');
-    /*
-      1.取得 fromData
-      2.放到相对映的位置，利用 es6 解构函数取值
-    */
-  },
-  edit() {
-    console.log(`${_tip} edit()`);
-    return false;
-  },
-  viewPop() {
-    console.log('viewPop setting');
-  },
-  viewCallBack() {
-    console.log('${_tip} viewCallBack()');
-  },
-  view() {
-    console.log(`${_tip} view()`);
-    return false;
-  },
-  del(formData) {
-    let {id, status = 0, url = this.delUrl, success = false} = formData,
-        params = {
-          url,
-          data: {id},
-          success
-        };
-
-    if (status === 1) {
-      this.showMsg({msg: '当选中记录启用，不允许删除!'});
+  // popDefaultParams() {
+  //   return {
+  //     url: this.url.pop,
+  //     focusId: this.focusId,
+  //     popWidth: this.popWidth
+  //   };
+  // },
+  commonPop(status, index = 0, formData = {}, params = {}) {
+    console.log('commonPop setting');
+    let newParams = {};
+    newParams.url = this.url.pop;
+    newParams.focusId = this.focusId;
+    newParams.popWidth = this.popWidth;
+    newParams.callback = this.callback[status];
+    newParams.data = this.popData[status];
+    newParams.formData = formData;
+    Object.assign(newParams, params);
+    if (Number(formData.status) === 1) {
+      Dna.showMsg(_statusCheck);
       return false;
     }
-
-    this.formStatus = _delStatus;
-    $.messager.confirm('提示', '是否删除当前纪录?', r => {
-      if (r) {
-        this.sendData(params);
-      }
-    });
+    this.index = index;
+    this.formStatus = status;
+    this.pop(newParams);
   },
-
-  delBatch(params = {}) {
-    let {url = this.delBatchUrl, tipName = 'name'} = params,
-        ids = [],
-        names = [],
-        data,
-        ajaxData,
-        checkItems = this.checkAll(this.dataGrid);
-    if (checkItems.length === 0) {
-      this.showMsg({msg: _delBatch});
-      return false;
-    }
-    // 取得删除id或提示的字段
-    $.each(checkItems, (index, item) => {
-      if (item.status === '1') {
-        names.push(item[tipName]);
-      } else {
-        ids.push(item.stringId);
-      }
-    });
-
-    if (names.length > 0) {
-      let msg = this.concatMsg(names);
-      this.showMsg({msg: `名称${msg}启用状态，不允许删除!`});
-      return false;
-    }
-
-    this.formStatus = _delStatus;
-    data = {ids: ids.join(',')};
-    ajaxData = {
-      url,
-      data
-    };
-    $.messager.confirm('提示', '是否删除当前纪录?', r => {
-      if (r) {
-        this.sendData(ajaxData);
-      }
-    });
-  },
-
   // 查询时所需的参数数据
-  searchParams(preId) {
-    let params = {
-      searchStr: $.trim($(`#${preId}SearchStr`).val())
+  searchParams(preId = this.preId) {
+    let
+    params = {
+      searchStr: $.trim($(`#${preId}SearchStr`).val()),
+      status: this.status,
+      sort: this.sort
     };
     return params;
   },
 
-  search(params) {
-    if (params.searchStr.contains('$')) {
-      this.showMsg({msg: _searchStr});
+  search(params = {}) {
+    let {
+      dataGrid = this.dataGrid,
+      searchObj = this.searchParams()
+    } = params;
+    if (searchObj.searchStr.includes('$')) {
+      this.showMsg(_searchStr);
     } else {
-      this.dataGrid.datagrid('load', params);
+      dataGrid.datagrid('load', searchObj);
     }
+  },
+
+  // 设置查询栏位中的提示字段及focus
+  setSearchStr(params = {}) {
+    let {
+      preId = this.preId,
+      str = this.searchTip,
+      obj = $(`#${preId}SearchStr`)
+    } = params;
+
+    obj.attr("placeholder", str);
+    obj.tooltip({
+      content: "<span style='color:#000000'>" + str + "</span>",
+      onShow: function() {
+        $(this).tooltip('tip').css({
+          backgroundColor: '#fff',
+          borderColor: '#666'
+        });
+      }
+    });
+    obj.focus();
   }
 };
 Object.assign(Dna, DataControl, Message, DataGrid, Validate, ComboGrid);
 window.Dna = Dna;
 window.Tree = Tree;
+window.$ = $;
 export {Dna};

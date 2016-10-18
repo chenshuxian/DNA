@@ -1,0 +1,57 @@
+<div class="flex-container viewport-container">
+  <div class="aside-menu">
+    <div class="aside-menu-content">
+      <div class="flex-container form-label">
+        <span class="title">外勤路线</span></label>
+        <select name="" id="" class="easyui-combobox readonly-select">
+          <option value="0">路线1</option>
+          <option value="1">路线2</option>
+        </select>
+      </div>
+      <div class="flex-container form-label">
+        <span class="title">送检机构</span></label>
+        <select name="" id="" class="easyui-combobox readonly-select">
+          <option value="0">机构1</option>
+          <option value="1">机构2</option>
+        </select>
+      </div>
+      <label><span>待分发条码列表</span></label>
+      <table id="List1"></table>
+      <div id="total">共有x条记录</div>
+      <div class="btn-group-justified">
+        <button class="btn btn-submit sm-size"id="batchScan"></button>
+        <button class="btn btn-submit sm-size" id="flash"></button>
+      </div>
+    </div>
+  </div>
+  <div class="content flex-container flex-vertical">
+    <div class="option-form-group">
+        <div class="flex-container flex-space-between">
+          <label><span>条码:</span></label>
+          <input type="text" class="form-control block-show">
+        </div>
+      <div class="flex-container flex-space-between">
+        <div class="flex-container flex-space-between">
+          <label><span>机测机构:</span></label>
+          <input type="text" class="form-control block-show readonly">
+        </div>
+        <div class="flex-container flex-space-between">
+          <label><span>项目:</span></label>
+          <input type="text" class="form-control block-show readonly">
+        </div>
+        <div class="flex-container flex-space-between">
+          <label><span>标本类型:</span></label>
+          <input type="text" class="form-control block-show readonly">
+        </div>
+      </div>
+    </div>
+    <div class="flex-container content-viewport">
+      <table class="flex-col-2" id="List2"></table>
+      <table class="flex-col-10" id="List3"></table>
+      <div class="wrapper-footer text-center">
+        <button class="btn btn-submit sm-size" id="Submit"></button>
+        <button class="btn btn-submit sm-size" id="Close"></button>
+      </div>
+    </div>
+  </div>
+</div>

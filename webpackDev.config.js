@@ -10,18 +10,20 @@ module.exports = {
   // plugins: [commonsPlugin],
   plugins: [
     // 將共用的 js 提到一個 common.js 中
-    new webpack.optimize.CommonsChunkPlugin('vender', 'Dna.js'),
+    new webpack.optimize.CommonsChunkPlugin('vender', 'jQuery.js'),
     //   name: 'vender',
     //   // minChunks: Infinity
     //   filename: 'commons.js'
     //   // chunks: ['jquery']
     // }),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      'jQuery': 'jquery',
-      'window.jQuery': 'jquery',
-      'root.jQuery': 'jquery'
-    })
+    new webpack.ProvidePlugin(
+      {
+        $: 'jquery',
+        'jQuery': 'jquery',
+        'window.jQuery': 'jquery',
+        'root.jQuery': 'jquery'
+      }
+  )
     // new HtmlWebpackPlugin({
     //    filename: 'index.jade',
     // }),
@@ -33,11 +35,13 @@ module.exports = {
     // })
   ],
   entry: {
-    index: `./public/js/test.js`,
+    Dna: `./public/js/commons/core/DNA.js`,
+    index: './public/js/line/lineSet/index.js',
     vender: ['jquery', 'easyui', 'easyuiCN']
   },
   output: {
-    path: './public/js/dev',
+    // path: './public/js/dev',
+    path: 'F:\\newLMS\\src\\main\\webapp\\js',
     filename: '[name].js',
     chunkFilename: '[name].js'
   },

@@ -2,7 +2,7 @@
 import $ from 'jquery';
 import {CONST as CO} from 'const';
 
-let _title = '提示1',
+let _title = '提示',
     _slideMsg = function(obj) {
       let {msg, title = _title} = obj;
       $.messager.show({
@@ -16,13 +16,14 @@ let _title = '提示1',
 export let Message = {
   resolve(obj) {
     // obj = JSON.parse(obj);
-    if (typeof obj !== 'object') {
-      obj = JSON.parse(obj);
+    if (obj === "") {
+      return true;
     }
+    // if (typeof obj !== 'object') {
+    //   obj = JSON.parse(obj);
+    // }
+    obj = Dna.toJson(obj);
     let {status} = obj;
-    // let status = obj.status,
-    // msg = obj.msg,
-    // callback = obj.callback;
 
     switch (status) {
     case CO.BASES.SUCCESS:
@@ -30,6 +31,8 @@ export let Message = {
       return true;
     case CO.BASES.ERR:
       this.showMsg(obj);
+      this.delIndexs.clear();
+      Dna.btnEnable();
       return false;
     case CO.BASES.CONF:
       // obj.callback = this.confirm;
@@ -37,7 +40,7 @@ export let Message = {
       break;
       // return false;
     default:
-      break;
+      return true;
     }
   },
 
@@ -49,10 +52,10 @@ export let Message = {
     $.messager.alert(title, msg, callback);
   },
   jConfirm(obj) {
-    let {title = _title, msg} = obj;
+    let {title = _title, msg, sendData = {}} = obj;
     $.messager.confirm(title, msg, r => {
       if (r) {
-        this.confirmOK();
+        this.confirmOK(sendData);
       } else {
         this.confirmNO();
       }

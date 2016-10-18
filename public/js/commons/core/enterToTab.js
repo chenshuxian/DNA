@@ -3,21 +3,21 @@ import $ from 'jquery';
 $('*').on('keydown', 'input,a,select', function(e) {
   var self = $(this),
       form = self.parents('form:eq(0)'),
-      focusable, next, regStr;
+      focusable, next, tagName, tagId, regStr, regStr2, regStr3, regStr4;;
 
   if (e.keyCode === 13) {
-    focusable = form.find('input,a,select,textarea').filter(':visible');
+    focusable = form.find('input,a,select,textarea').filter(':text:visible');
     next = focusable.eq(focusable.index(this) + 1);
     if (next.length) {
       checkDisabled(focusable, next);
       next.focus();
       next.select();
-    } else if (next.context) {
-      let tagId = next.context.id.toLowerCase(),
+    } else {
+      let tagId = self[0].id.toLowerCase(),
           regStr = /search/;
       // 判断是表单事件或查询事件
       if (regStr.test(tagId)) {
-        $(`#${next.context.id}`).next().click();	// 查询事件触发
+        $(`#${self[0].id}`).next().click();	// 查询事件触发
       } else {
         $("#editBtn").click();
       }

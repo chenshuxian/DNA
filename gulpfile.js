@@ -58,7 +58,8 @@ gulp.task('jade', function() {
 
 gulp.task('watch', function() {
   gulp.watch('./public/css/*.scss', ['sass']);
-  gulp.watch('./public/js/*.js', ['webpack:build-dev']);
+  gulp.watch('./public/js/line/lineSet/*.js', ['webpack:build-dev']);
+  gulp.watch('./public/js/commons/core/*.js', ['webpack:build-dev']);
   gulp.watch('./app/views/*.jade', ['jade']);
   livereload.listen();
 });
